@@ -3,16 +3,19 @@ import { galleryItems } from './gallery-items.js';
 
 // console.log(galleryItems);
 
-const galleryContainer = document.querySelector('.gallery');
+const refs = {
+    galleryContainer : document.querySelector('.gallery'), 
+}
+
 const galleryMarkup = createGallerymarkup(galleryItems);
-galleryContainer.insertAdjacentHTML('beforeend', galleryMarkup )
+refs.galleryContainer.insertAdjacentHTML('beforeend', galleryMarkup )
 // console.log(createGallerymarkup(galleryItems))
 
-function createGallerymarkup(items) {
-    return galleryItems.map(({preview, original, description}) => {
+function createGallerymarkup(el) {
+    return el.map(({preview, original, description}) => {
         return `
           <div class="gallery__item">
-  <a class="gallery__link" href="${preview}">
+  <a class="gallery__link" href="${original}">
     <img
       class="gallery__image"
       src="${preview}"
