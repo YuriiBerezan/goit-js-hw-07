@@ -4,16 +4,16 @@ import { galleryItems } from './gallery-items.js';
 // console.log(galleryItems);
 
 const refs = {
-    galleryContainer : document.querySelector('.gallery'), 
-}
+  galleryList: document.querySelector('.gallery'), //общий родитель картинок
+  };
+
+// // Создание и рендер разметки по массиву данных и предоставленному шаблону.
 
 const galleryMarkup = createGallerymarkup(galleryItems);
-refs.galleryContainer.insertAdjacentHTML('beforeend', galleryMarkup )
+refs.galleryList.insertAdjacentHTML('beforeend', galleryMarkup )
 // console.log(createGallerymarkup(galleryItems))
 
-refs.galleryContainer.addEventListener('click', onGalleryClick)
-
-
+// refs.galleryList.addEventListener('click', onGalleryClick)
 
 function createGallerymarkup(el) {
   // el.prventDefault();
@@ -33,13 +33,40 @@ function createGallerymarkup(el) {
     }).join(' ');        
 }
 
-function onGalleryClick(e) {
-  if (e.target.nodeName !== 'IMG') {
+
+refs.galleryList.addEventListener('click', onOpenModal);
+
+function onOpenModal(evt) {
+  window.addEventListener('keydown', onEscKeyPress);
+  if (evt.target.nodeName !== 'IMG') {
     return;
   }
-  e.prventDefault();
- console.log(e.target.dataset.sourse)
-  // console.log(e.target)
+  evt.preventDefault(); //отмена перехода по ссылке
+
+const instance = basicLightbox.create(`
+  <img class="lightbox__image" src="${evt.target.dataset.source}" alt="${evt.target.alt}" />
+          
+`)
+instance.show()
+ 
+
+ 
 }
 
 
+function onCloseModal() {
+window.removeEventListener('keydown', onEscKeyPress);
+
+}
+
+
+// // Закрытие модального окна по нажатию клавиши ESC.
+
+function onEscKeyPress(event) {
+  const ESC_KEY_CODE = 'Escape';
+  const isEscKey = event.code === ESC_KEY_CODE;
+// console.log(isEscKey)
+  if (isEscKey) {
+    onCloseModal();
+  }
+}
