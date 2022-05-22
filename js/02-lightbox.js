@@ -22,7 +22,7 @@ function createGallerymarkup(el) {
   // el.prventDefault();
     return el.map(({preview, original, description}) => {
         return `
-          <li class="gallery__item">
+         <li class="gallery__item"> 
   <a class="gallery__link" href="${preview}">
     <img
       class="gallery__image"
@@ -31,7 +31,8 @@ function createGallerymarkup(el) {
       alt="${description}"
     />
   </a>
-</li>
+  </li>
+
 `;
     }).join(' ');        
 }
@@ -43,17 +44,21 @@ function onOpenModal(evt) {
   if (evt.target.nodeName !== 'IMG') {
     return;
   }
-  evt.preventDefault(); //отмена перехода по ссылке
+    evt.preventDefault();   
+    
+
+    const captionOptions = {
+    
+    
+    captionsData: 'alt',
+    captionPosition: 'bottom',
+    captionDelay: 250,
+    enableKeyboard: true,
+       };
+let simpleLightboxGallery = new SimpleLightbox('.gallery a', captionOptions);
+simpleLightboxGallery.on('show.simplelightbox', function () {
+    open// do something…
+    });
 
     
-        
-    let gallery = new SimpleLightbox('.gallery a');
-gallery.on('show.simplelightbox', function () {
-	// do something…
-     evt
-});
-
- 
-
- 
 }
